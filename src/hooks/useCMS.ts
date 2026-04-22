@@ -39,7 +39,7 @@ export function useCMS() {
         } else {
           const defaultConfig: SiteConfig = {
             logoText: 'Commentify',
-            footerText: '© 2026 Commentify Labs. All rights reserved.',
+            footerText: '© 2026 Commentify Labs. All rights reserved. By Dilovan Abdo',
             instagramLink: 'http://instagram.com/dilovan.abdo',
             navigation: [
               { label: 'AI Tools', path: '/tools' },
