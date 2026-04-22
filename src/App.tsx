@@ -15,6 +15,9 @@ import AboutPage from './components/pages/AboutPage';
 import ContactPage from './components/pages/ContactPage';
 import PrivacyPage from './components/pages/PrivacyPage';
 import TermsPage from './components/pages/TermsPage';
+import BlogList from './components/community/BlogList';
+import BlogDetail from './components/community/BlogDetail';
+import BlogAdmin from './components/community/BlogAdmin';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
@@ -44,6 +47,9 @@ export default function App() {
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/privacy" element={<PrivacyPage />} />
             <Route path="/terms" element={<TermsPage />} />
+            <Route path="/community" element={<BlogList />} />
+            <Route path="/community/:id" element={<BlogDetail />} />
+            <Route path="/community/admin" element={<BlogAdmin />} />
           </Routes>
         </main>
         <Footer />

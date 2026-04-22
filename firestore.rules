@@ -11,8 +11,9 @@ service cloud.firestore {
 
     function isAdmin() {
       return isSignedIn() && 
-             request.auth.token.email == 'wazooshop@gmail.com' && 
-             request.auth.token.email_verified == true;
+             (request.auth.token.email == 'wazooshop@gmail.com' || 
+              request.auth.token.email == 'Wazooshop@gmail.com' || 
+              request.auth.token.email.lower() == 'wazooshop@gmail.com');
     }
 
     function isValidId(id) {
@@ -29,6 +30,13 @@ service cloud.firestore {
     match /pages/{pageId} {
       allow read: if true;
       allow write: if isAdmin() && isValidId(pageId);
+    }
+
+    // Community Blog Posts
+    match /blog_posts/{postId} {
+      allow get: if (resource == null) || resource.data.status == 'published' || isAdmin();
+      allow list: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin() && isValidId(postId);
     }
   }
 }

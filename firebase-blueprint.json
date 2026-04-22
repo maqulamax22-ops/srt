@@ -37,6 +37,20 @@
           }
         }
       }
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "A community blog article",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "image": { "type": "string" },
+        "status": { "type": "string", "enum": ["published", "draft"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "status"]
     }
   },
   "firestore": {
@@ -47,6 +61,10 @@
     "pages/{pageId}": {
       "schema": "PageContent",
       "description": "Page-specific content sections"
+    },
+    "blog_posts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of community blog posts"
     }
   }
 }
