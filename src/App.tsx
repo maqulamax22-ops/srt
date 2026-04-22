@@ -13,6 +13,8 @@ import AITools from './components/AITools';
 import DonatePage from './components/DonatePage';
 import AboutPage from './components/pages/AboutPage';
 import ContactPage from './components/pages/ContactPage';
+import PrivacyPage from './components/pages/PrivacyPage';
+import TermsPage from './components/pages/TermsPage';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 
@@ -40,6 +42,8 @@ export default function App() {
             <Route path="/donate" element={<DonatePage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="/terms" element={<TermsPage />} />
           </Routes>
         </main>
         <Footer />

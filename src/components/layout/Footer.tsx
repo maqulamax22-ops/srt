@@ -19,6 +19,8 @@ export default function Footer() {
             {link.label}
           </Link>
         ))}
+        <Link to="/privacy" className="hover:text-white transition-colors">Privacy</Link>
+        <Link to="/terms" className="hover:text-white transition-colors">Terms</Link>
       </div>
 
       <div className="text-[10px] font-medium opacity-40 tracking-wider">
