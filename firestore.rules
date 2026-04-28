@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             (request.auth.token.email == 'wazooshop@gmail.com' || 
+              request.auth.token.email == 'Wazooshop@gmail.com' || 
+              request.auth.token.email.lower() == 'wazooshop@gmail.com');
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Global site configuration
+    match /configs/site {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Page-specific content
+    match /pages/{pageId} {
+      allow read: if true;
+      allow write: if isAdmin() && isValidId(pageId);
+    }
+
+    // Community Blog Posts
+    match /blog_posts/{postId} {
+      allow get: if (resource == null) || resource.data.status == 'published' || isAdmin();
+      allow list: if resource.data.status == 'published' || isAdmin();
+      allow write: if isAdmin() && isValidId(postId);
+    }
+
+    // User Accounts
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isAdmin();
+      allow create: if isSignedIn() && request.auth.uid == userId;
+      allow update: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow delete: if isAdmin();
+    }
+
+    // Analytics Events
+    match /analytics_events/{eventId} {
+      allow create: if true; // Allow anonymous tracking
+      allow read: if isAdmin();
+      allow update, delete: if isAdmin();
+    }
+
+    // Active Sessions
+    match /active_sessions/{sessionId} {
+      allow create, update: if true; // Allow anonymous heartbeat
+      allow read: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Broadcast Announcements
+    match /announcements/{announcementId} {
+      allow read: if isSignedIn();
+      allow write: if isAdmin();
+    }
+
+    // Support Tickets
+    match /support_tickets/{ticketId} {
+      allow create: if isSignedIn();
+      allow read: if isAdmin() || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+  }
+}

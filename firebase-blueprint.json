@@ -1,0 +1,179 @@
+{
+  "entities": {
+    "SiteConfig": {
+      "title": "Site Configuration",
+      "description": "Global settings for the website",
+      "type": "object",
+      "properties": {
+        "logoText": { "type": "string" },
+        "logoUrl": { "type": "string" },
+        "faviconUrl": { "type": "string" },
+        "footerText": { "type": "string" },
+        "instagramLink": { "type": "string" },
+        "headerNavigation": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "label": { "type": "string" },
+              "path": { "type": "string" }
+            }
+          }
+        },
+        "footerSections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": { "type": "string" },
+              "links": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": { "type": "string" },
+                    "path": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "PageContent": {
+      "title": "Page Content",
+      "description": "Content for each page",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "sections": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": { "type": "string", "enum": ["hero", "text-cta", "tools", "custom"] },
+              "data": { "type": "object" }
+            }
+          }
+        }
+      }
+    },
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "A community blog article",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "image": { "type": "string" },
+        "status": { "type": "string", "enum": ["published", "draft"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "status"]
+    },
+    "UserAccount": {
+      "title": "User Account",
+      "description": "Registered user profile",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    },
+    "AnalyticsEvent": {
+      "title": "Analytics Event",
+      "description": "Tracking user interactions",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string" },
+        "path": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "userId": { "type": "string" },
+        "metadata": { "type": "object" }
+      }
+    },
+    "ActiveSession": {
+      "title": "Active Session",
+      "description": "Currently active visitor session",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "lastActive": { "type": "string", "format": "date-time" },
+        "path": { "type": "string" },
+        "location": {
+          "type": "object",
+          "properties": {
+            "lat": { "type": "number" },
+            "lng": { "type": "number" },
+            "city": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        }
+      }
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "A broadcast message sent to users",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "audienceSize": { "type": "number" },
+        "status": { "type": "string" }
+      }
+    },
+    "SupportTicket": {
+      "title": "Support Ticket",
+      "description": "A customer support inquiry",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "email": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "resolved"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      }
+    }
+  },
+  "firestore": {
+    "configs/site": {
+      "schema": "SiteConfig",
+      "description": "Global site configuration"
+    },
+    "pages/{pageId}": {
+      "schema": "PageContent",
+      "description": "Page-specific content sections"
+    },
+    "blog_posts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of community blog posts"
+    },
+    "users/{userId}": {
+      "schema": "UserAccount",
+      "description": "Collection of user profiles"
+    },
+    "analytics_events/{eventId}": {
+      "schema": "AnalyticsEvent",
+      "description": "Collection of tracking events"
+    },
+    "active_sessions/{sessionId}": {
+      "schema": "ActiveSession",
+      "description": "Collection of active visitor sessions"
+    },
+    "announcements/{announcementId}": {
+      "schema": "Announcement",
+      "description": "Collection of broadcast announcements"
+    },
+    "support_tickets/{ticketId}": {
+      "schema": "SupportTicket",
+      "description": "Collection of support inquiry tickets"
+    }
+  }
+}
